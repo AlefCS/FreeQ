@@ -9,7 +9,7 @@ def start(update, context):
 	"""
 Bem vindo ao *FreeQ*!
 
-Ficamos felizes que você demonstrou interesse pelo bot. Infelizmente o mesmo ainda está sendo contruído e ainda não se encontra em pleno funcinamento.
+Ficamos felizes que você demonstrou interesse pelo bot. Infelizmente o mesmo ainda está sendo contruído e não se encontra em pleno funcinamento.
 
 Caso queira ter um exemplo de como o FreeQ irá funcionar, basta usar o comando /example.
 	"""
