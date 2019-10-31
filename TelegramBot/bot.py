@@ -6,7 +6,6 @@ import pytz
 import dateutil.parser
 from telegram import ParseMode
 from telegram.ext import Updater, CommandHandler
-from datetime import datetime
 
 ########################## Command Handlers - BEGIN ############################
 
@@ -38,15 +37,12 @@ Lembramos que esta mensagem trata-se apenas de um exemplo e os dados nela aprese
     context.bot.send_message(chat_id=update.message.chat_id, text=example_message, parse_mode=ParseMode.MARKDOWN)
 
 def verificarSituacao(update, context):
-    print("Entrei")
     global lastVerification
     local_tz = pytz.timezone("America/Fortaleza")
     
     rawdate = lastVerification["time"]
     date = rawdate.replace('Z','+00:00')
     date = dateutil.parser.parse(date)
-    print(date)
-    print("Cheguei")
     date = date.replace(tzinfo=pytz.utc).astimezone(local_tz)
     
     message  = " Às {}:\n".format(date)

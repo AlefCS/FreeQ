@@ -29,3 +29,5 @@ pip-delete-this-directory.txt
 # Spyder project settings
 .spyderproject
 .spyproject
+
+TelegramBot/bot_token
