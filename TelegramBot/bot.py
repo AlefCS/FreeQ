@@ -36,7 +36,7 @@ Lembramos que esta mensagem trata-se apenas de um exemplo e os dados nela aprese
     example_message = example_message[1:-2]
     context.bot.send_message(chat_id=update.message.chat_id, text=example_message, parse_mode=ParseMode.MARKDOWN)
 
-def verificarSituacao(update, context):
+def status_fila(update, context):
     global lastVerification
     local_tz = pytz.timezone("America/Fortaleza")
 
@@ -89,14 +89,14 @@ bot_token = open(token_path).read()[0:-1]
 updater = Updater(token=bot_token, use_context=True)
 
 # Create handlers (start and example)
-start_handler     = CommandHandler('start', start)
-example_handler   = CommandHandler('example', example)
-verificarSituacao_handler = CommandHandler('verificarSituacao', verificarSituacao)
+start_handler       = CommandHandler('start', start)
+example_handler     = CommandHandler('example', example)
+status_fila_handler = CommandHandler('status_fila', status_fila)
 
 # Add handlers to dispatcher
 updater.dispatcher.add_handler(start_handler)
 updater.dispatcher.add_handler(example_handler)
-updater.dispatcher.add_handler(verificarSituacao_handler)
+updater.dispatcher.add_handler(status_fila_handler)
 
 # Start polling user requests
 updater.start_polling()
