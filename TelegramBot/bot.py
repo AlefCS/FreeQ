@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import paho.mqtt.client as mqttc
-import json
+import sys, json
 import pytz
 import dateutil.parser
 from telegram import ParseMode
@@ -39,15 +39,15 @@ Lembramos que esta mensagem trata-se apenas de um exemplo e os dados nela aprese
 def verificarSituacao(update, context):
     global lastVerification
     local_tz = pytz.timezone("America/Fortaleza")
-    
+
     rawdate = lastVerification["time"]
     date = rawdate.replace('Z','+00:00')
     date = dateutil.parser.parse(date)
     date = date.replace(tzinfo=pytz.utc).astimezone(local_tz)
-    
+
     message  = " Às {}:\n".format(date)
     message += " - Nº de pessoas: *{}*\n".format(lastVerification["value"])
-    
+
     context.bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.MARKDOWN)
 
 ########################### Command Handlers - END #############################
@@ -60,7 +60,7 @@ def on_message(client, userdata, message):
     print("Got message on topic '" + str(message.topic) + "'")
     print("Message content:\n" + str(message.payload) + "\n")
     lastVerification = json.loads(message.payload)
-   
+
 
 broker_url  = "mqtt.tago.io"
 broker_port = 8883
@@ -82,7 +82,8 @@ client.subscribe(topic, qos=2)
 client.loop_start()
 
 # Get bot Access Token
-bot_token = open('bot_token').read()[0:-1]
+token_path = sys.path[0] + '/bot_token'
+bot_token = open(token_path).read()[0:-1]
 
 # Create updater
 updater = Updater(token=bot_token, use_context=True)
