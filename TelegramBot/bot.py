@@ -13,29 +13,17 @@ from telegram.ext import Updater, CommandHandler
 def start(update, context):
     start_message = \
     """
-Bem vindo ao *FreeQ*!
+Bem vindo ao *FreeQ*, um bot feito para você que não gosta de ficar esperando em filas.
 
-Ficamos felizes que você demonstrou interesse pelo bot. Infelizmente o mesmo ainda está sendo construído e não se encontra em pleno funcionamento.
+Ficamos felizes que você demonstrou interesse pelo bot.
+Lembramos que apesar de o bot já estar rodando a aplicação ainda não está 100% pronta e em pleno funcionamento, então os dados mostrados são "fictícios".
 
-Caso queira ter um exemplo de como o FreeQ irá funcionar, basta usar o comando /example.
+Caso queira checar quantas pessoas estão na fila do RU, basta usar o comando /status\_fila.
     """
     start_message = start_message[1:-2]
     context.bot.send_message(chat_id=update.message.chat_id, text=start_message, parse_mode=ParseMode.MARKDOWN)
 
-##### /example handler #####
-def example(update, context):
-    example_message = \
-    """
-Às 12h05 (26/09/2019):
-    - Nº de pessoas: *16*
-    - Tempo de espera: *7 minutos*
-
-_⚠⚠ AVISO ⚠⚠
-Lembramos que esta mensagem trata-se apenas de um exemplo e os dados nela apresentados são fictícios._
-    """
-    example_message = example_message[1:-2]
-    context.bot.send_message(chat_id=update.message.chat_id, text=example_message, parse_mode=ParseMode.MARKDOWN)
-
+##### /status_fila handler #####
 def status_fila(update, context):
     global lastVerification
     local_tz = pytz.timezone("America/Fortaleza")
@@ -45,8 +33,14 @@ def status_fila(update, context):
     date = dateutil.parser.parse(date)
     date = date.replace(tzinfo=pytz.utc).astimezone(local_tz)
 
-    message  = " Às {}:\n".format(date)
+    message  = date.strftime(" Às %Hh%M (%d/%m/%Y):\n")
     message += " - Nº de pessoas: *{}*\n".format(lastVerification["value"])
+    message += \
+    """
+
+_⚠⚠ AVISO ⚠⚠
+Lembramos que a aplicação ainda não foi implantada em campo. Então os dados presentes nesta mensagem são fictícios._
+    """[1:-2]
 
     context.bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.MARKDOWN)
 
