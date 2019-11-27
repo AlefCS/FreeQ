@@ -19,8 +19,7 @@ Ficamos felizes que você demonstrou interesse pelo bot.
 Lembramos que apesar de o bot já estar rodando a aplicação ainda não está 100% pronta e em pleno funcionamento, então os dados mostrados são "fictícios".
 
 Caso queira checar quantas pessoas estão na fila do RU, basta usar o comando /status\_fila.
-    """
-    start_message = start_message[1:-2]
+    """.strip()
     context.bot.send_message(chat_id=update.message.chat_id, text=start_message, parse_mode=ParseMode.MARKDOWN)
 
 ##### /status_fila handler #####
@@ -40,7 +39,7 @@ def status_fila(update, context):
 
 _⚠⚠ AVISO ⚠⚠
 Lembramos que a aplicação ainda não foi implantada em campo. Então os dados presentes nesta mensagem são fictícios._
-    """[1:-2]
+    """.strip()
 
     context.bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.MARKDOWN)
 
@@ -77,19 +76,17 @@ client.loop_start()
 
 # Get bot Access Token
 token_path = sys.path[0] + '/bot_token'
-bot_token = open(token_path).read()[0:-1]
+bot_token = open(token_path).read().strip()
 
 # Create updater
 updater = Updater(token=bot_token, use_context=True)
 
 # Create handlers (start and example)
 start_handler       = CommandHandler('start', start)
-example_handler     = CommandHandler('example', example)
 status_fila_handler = CommandHandler('status_fila', status_fila)
 
 # Add handlers to dispatcher
 updater.dispatcher.add_handler(start_handler)
-updater.dispatcher.add_handler(example_handler)
 updater.dispatcher.add_handler(status_fila_handler)
 
 # Start polling user requests
