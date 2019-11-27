@@ -11,7 +11,7 @@ from telegram.ext import Updater, CommandHandler
 
 ##### /start handler #####
 def start(update, context):
-    start_message = \
+    message = \
     """
 Bem vindo ao *FreeQ*, um bot feito para você que não gosta de ficar esperando em filas.
 
@@ -20,7 +20,15 @@ Lembramos que apesar de o bot já estar rodando a aplicação ainda não está 1
 
 Caso queira checar quantas pessoas estão na fila do RU, basta usar o comando /status\_fila.
     """.strip()
-    context.bot.send_message(chat_id=update.message.chat_id, text=start_message, parse_mode=ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.MARKDOWN)
+
+##### /help handler #####
+def help(update, context):
+    message = \
+    """
+Para obter o _status_ da sua fila utiliza o comando /status\_fila ou clique [aqui](https://bit.ly/FreeQueue) para acessar a nossa _dashboard_ na plataforma TagoIO.
+    """.strip()
+    context.bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.MARKDOWN)
 
 ##### /status_fila handler #####
 def status_fila(update, context):
@@ -83,10 +91,12 @@ updater = Updater(token=bot_token, use_context=True)
 
 # Create handlers (start and example)
 start_handler       = CommandHandler('start', start)
+help_handler        = CommandHandler('help', help)
 status_fila_handler = CommandHandler('status_fila', status_fila)
 
 # Add handlers to dispatcher
 updater.dispatcher.add_handler(start_handler)
+updater.dispatcher.add_handler(help_handler)
 updater.dispatcher.add_handler(status_fila_handler)
 
 # Start polling user requests
